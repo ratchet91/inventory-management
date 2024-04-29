@@ -28,7 +28,8 @@ Features
 
 To run this application locally, you need to have Java and Maven installed on your machine.
 
-1. Clone this repository to your local machine.
+1. Clone this repository to your local machine. 
+	repository URL: **url**: https://github.com/ratchet91/inventory-management
 2. Navigate to the project directory.
 3. Run the following command to build and run the application:
 
@@ -170,10 +171,28 @@ Success: HTTP 200 OK
 Database Schema:
 The application uses a relational database to track inventory changes. The schema includes the following table:
 
-CREATE TABLE inventory_transactions (
-    transaction_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    transaction_type ENUM('DEDUCTION', 'ADDITION') NOT NULL,
-    quantity INT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `inventory_transaction` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `quantity_change` int(11) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT current_timestamp(),
+  `transaction_type` enum('DEDUCTION','ADDITION') DEFAULT NULL,
+  `item_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK6qmmodpse2tjsmxympifdfug5` (`item_id`),
+  CONSTRAINT `FK6qmmodpse2tjsmxympifdfug5` FOREIGN KEY (`item_id`) REFERENCES `inventory_item` (`id`)
+)
+The above table will store transaction information i.e in our case an entry with respect to addition or deduction.
+
+
+CREATE TABLE `inventory_item` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(255) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_21us6559nk34qxe6vwxbk7117` (`product_name`)
+) 
+
+This will store Product details like 
+product/item id
+product/item name and
+Quantity present
