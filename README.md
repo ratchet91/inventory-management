@@ -39,39 +39,135 @@ The application will start on http://localhost:9091 by default. -> as it is conf
 
 ## API Endpoints
 
-### Add Inventory
+## 
 
-- **URL:** `/api/inventory/deduct`
+### Add Inventory
+### Get All Inventory Products
+
+- **URL:** `/inventory/getAllProducts`
+- **Method:** `GET`
+- **Request Body:**
+  
+  
+Response:
+Success: HTTP 200 OK
+- **Response Body:**
+{
+    "products": [
+        {
+            "productName": "Test123",
+            "quantity": 130
+        },
+        {
+            "productName": "Test1223",
+            "quantity": 100
+        }
+    ],
+    "count": 2
+}
+Error: HTTP 400 Bad Request - Error message.
+
+### Get Inventory Product By Id
+
+- **URL:** `/inventory/getProductsById/{id}`
+- **Method:** `GET`
+- **Request Body:**
+  
+  
+Response:
+Success: HTTP 200 OK
+- **Response Body:**
+{
+    "productName": "Test123",
+    "quantity": 130
+}
+Error: HTTP 400 Bad Request - Error message.
+
+### Delete Inventory Product By Id
+-**Note** - Only if quantity of inventory product is 0, then only we can delete it otherwise it will not allow.
+
+- **URL:** `/inventory/deleteProductById/{id}`
+- **Method:** `DELETE`
+- **Request Body:**
+  
+  
+Response:
+Success: HTTP 200 OK
+- **Response Body:**
+
+## ADD Product to Inventory
+-**Note** - Only Unique products can be added again, Product with same name cannot be added.
+- **URL:** `/inventory/product/add`
 - **Method:** `POST`
 - **Request Body:**
-  ```json
   {
-    "productId": 1,
-    "quantity": 5,
-    "type": "DEDUCTION"
+    "productName": "Test123",
+    "quantity": 10
   }
   
 Response:
-Success: HTTP 200 OK - "Inventory deducted successfully."
-Error: HTTP 400 Bad Request - Error message.
+Success: HTTP 200 OK
+- **Response Body:**
+ {
+    "productName": "Test123",
+    "quantity": 10
+ }
 
-### Add Inventory
+ Error: HTTP 400 Bad Request - Error message.
 
-- **URL:** `/api/inventory/deduct`
+
+## Deduct Quantity to Existing Product
+-**Note** - Will throw error if:
+  1. Product not present.
+  2. Quantity to DEDUCT is less than 0.
+  3. Quantity to DEDUCT is more than existing.
+
+- **URL:** `/inventory/product/deductQuantity`
 - **Method:** `POST`
 - **Request Body:**
-  ```json
   {
-    "productId": 1,
-    "quantity": 5,
-    "type": "DEDUCTION"
-  }
+    "id": 1,
+    "quantity": 10,
+    "transactionType": "ADDITION"
+}
   
 Response:
-Success: HTTP 200 OK - "Inventory added successfully."
-Error: HTTP 400 Bad Request - Error message.
+Success: HTTP 200 OK
+- **Response Body:**
+ {
+    "productName": "Test123",
+    "quantity": 100
+ }
 
-Database Schema
+ Error: HTTP 400 Bad Request - Error message.
+
+## ADD Quantity to Existing Product
+-**Note** - Will throw error if:
+  1. Product not present.
+  2. Quantity to ADD is less than 0.
+
+
+- **URL:** `/inventory/product/deductQuantity`
+- **Method:** `POST`
+- **Request Body:**
+  {
+    "id": 1,
+    "quantity": 10,
+    "transactionType": "ADDITION"
+}
+  
+Response:
+Success: HTTP 200 OK
+- **Response Body:**
+ {
+    "productName": "Test123",
+    "quantity": 80
+ }
+
+ Error: HTTP 400 Bad Request - Error message.
+
+
+Database Schema:
 The application uses a relational database to track inventory changes. The schema includes the following table:
 
 CREATE TABLE inventory_transactions (

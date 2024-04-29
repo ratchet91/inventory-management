@@ -39,7 +39,6 @@ public class InventoryTransactionServiceTest {
 		when(itemRepo.findById(12300L)).thenReturn(Optional.of(itemData));
 		when(transactionRepo.save(inventoryData)).thenReturn(inventoryData);
 		when(itemRepo.save(itemData)).thenReturn(itemData);
-		when(null)
 
 		assertEquals(transactionService.deductInventory(addInventoryRq).getQuantity(), 90);
 

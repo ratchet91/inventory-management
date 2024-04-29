@@ -54,7 +54,6 @@ public class InventoryItemService {
 
 	public InventoryItem addProductData(AddProductRq productRq) {
 		logger.info("Product data : " + productRq.getProductName() + " & : " + productRq.getQuantity());
-
 		InventoryItem itemObj = new InventoryItem(productRq.getProductName(), productRq.getQuantity());
 		return itemRepo.save(itemObj);
 

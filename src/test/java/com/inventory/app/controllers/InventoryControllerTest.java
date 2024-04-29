@@ -93,7 +93,7 @@ public class InventoryControllerTest {
 		when(transactionService.getInventoryItemById(12300L)).thenReturn(itemData);
 		when(transactionService.addInventory(addInventoryRq)).thenReturn(new InventoryItem(12300L, "Test Product", 10));
 
-		mockMvc.perform(post("/inventory/product/addQuantity").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/inventory/product/deductQuantity").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"id\": 12300, \"quantity\": 5, \"transactionType\": \"DEDUCTION\"}"))
 				.andExpect(status().isOk()).andExpect(status().isOk());
 

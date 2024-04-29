@@ -57,7 +57,7 @@ public class InventoryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/product/add")
+	@PostMapping("/product/addItem")
 	public ResponseEntity<InventoryItem> addItems(@RequestBody AddProductRq productData) {
 		if (productData.getProductName().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
